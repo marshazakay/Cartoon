@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    .cartoon-container {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #87CEEB;
+      transition: background-color 5s;
+    }
+
+    .ground {
+      position: absolute;
+      width: 100%;
+      height: 20%;
+      background-color: #8B4513;
+      bottom: 0;
+    }
+
+    .sun {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: #ff8c1a;
+      border-radius: 50%;
+      top: 50px;
+      left: 50%;
+      box-shadow: 0px 0px 20px #ff8c1a;
+      transform: translateX(-50%);
+      animation: moveSun 5s linear infinite alternate;
+    }
+
+    .cloud {
+      position: absolute;
+      width: 120px;
+      height: 60px;
+      background-color: #fff;
+      border-radius: 30px;
+      opacity: 0.8;
+      top: 20%;
+      left: -20%;
+      animation: moveCloud 20s linear infinite alternate;
+    }
+
+    .grass {
+      position: absolute;
+      width: 10px;
+      height: 50px;
+      background-color: #228B22;
+      bottom: 0;
+    }
+
+    .tree {
+      position: absolute;
+      width: 100px;
+      height: 400px;
+      background-color: #228B22;
+      bottom: 50px;
+      left: 70%;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .title {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    @keyframes moveSun {
+      to {
+        top: calc(100% - 150px);
+      }
+    }
+
+    @keyframes moveCloud {
+      to {
+        left: 120%;
+      }
+    }
+
+    <script>
+      function updateSkyColor(sunPosition) {
+        const skyColor = document.querySelector('.cartoon-container');
+        const darkness = Math.min((sunPosition - 50) / 50, 1);
+        const newColor = interpolateColor('#87CEEB', '#002633', darkness);
+        skyColor.style.backgroundColor = newColor;
+      }
+
+      function interpolateColor(color1, color2, factor) {
+        const result = color1.slice();
+        for (let i = 0; i < 3; i++) {
+          result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
+        }
+        return `rgb(${result.join(',')})`;
+      }
+
+      function updateSky() {
+        const sun = document.querySelector('.sun');
+        const sunPosition = sun.getBoundingClientRect().top;
+        updateSkyColor(sunPosition);
+      }
+
+      window.addEventListener('resize', updateSky);
+
+      updateSky();
+    </script>
+
+  </style>
+  <title>Sunset Cartoon</title>
+</head>
+<body>
+<div class="cartoon-container">
+  <div class="ground"></div>
+  <div class="sun"></div>
+  <div class="title">Sunset</div>
+
+  <script>
+    for (let i = 0; i < 2; i++) {
+      const cloud = document.createElement('div');
+      cloud.className = 'cloud';
+      cloud.style.left = `${i * 50}%`;
+      document.querySelector('.cartoon-container').appendChild(cloud);
+    }
+  </script>
+
+  <script>
+      for (let i = 0; i < 150; i++) {
+        const grass = document.createElement('div');
+        grass.className = 'grass';
+        grass.style.left = `${i * 0.9}%`;
+        document.querySelector('.cartoon-container').appendChild(grass);
+      }
+
+      const tree = document.createElement('div');
+      tree.className = 'tree';
+      document.querySelector('.cartoon-container').appendChild(tree);
+  </script>
+</div>
+</body>
+</html>
