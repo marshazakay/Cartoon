@@ -14,15 +14,15 @@
       position: relative;
       height: 100vh;
       overflow: hidden;
-      background-color: #87CEEB; /* Daytime Sky Blue */
-      transition: background-color 5s; /* Add transition for smooth color change */
+      background-color: #87CEEB;
+      transition: background-color 5s;
     }
 
     .ground {
       position: absolute;
       width: 100%;
       height: 20%;
-      background-color: #8B4513; /* Brown for ground */
+      background-color: #8B4513;
       bottom: 0;
     }
 
@@ -55,7 +55,7 @@
       position: absolute;
       width: 10px;
       height: 50px;
-      background-color: #228B22; /* Forest Green */
+      background-color: #228B22;
       bottom: 0;
     }
 
@@ -67,6 +67,16 @@
       bottom: 50px;
       left: 70%;
       clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .title {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
     }
 
     @keyframes moveSun {
@@ -81,11 +91,10 @@
       }
     }
 
-    /* Additional JavaScript to dynamically update sky color */
     <script>
       function updateSkyColor(sunPosition) {
         const skyColor = document.querySelector('.cartoon-container');
-        const darkness = Math.min((sunPosition - 50) / 50, 1); // Adjust the factor for darkness
+        const darkness = Math.min((sunPosition - 50) / 50, 1);
         const newColor = interpolateColor('#87CEEB', '#002633', darkness);
         skyColor.style.backgroundColor = newColor;
       }
@@ -98,17 +107,14 @@
         return `rgb(${result.join(',')})`;
       }
 
-      // Update sky color based on sun position
       function updateSky() {
         const sun = document.querySelector('.sun');
         const sunPosition = sun.getBoundingClientRect().top;
         updateSkyColor(sunPosition);
       }
 
-      // Update sky on window resize
       window.addEventListener('resize', updateSky);
 
-      // Initial update
       updateSky();
     </script>
 
@@ -119,8 +125,8 @@
 <div class="cartoon-container">
   <div class="ground"></div>
   <div class="sun"></div>
+  <div class="title">Sunset</div>
 
-  <!-- Draw clouds using a for loop -->
   <script>
     for (let i = 0; i < 2; i++) {
       const cloud = document.createElement('div');
